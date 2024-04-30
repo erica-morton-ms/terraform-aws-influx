@@ -70,6 +70,16 @@ function install_influxdb_on_amazon_linux {
   sudo yum localinstall -y "influxdb-data-${version}_c${version}.x86_64.rpm"
 }
 
+function install_influxdb_on_rhel9 {
+  local -r version="$1"
+
+  log_info "Installing InfluxDB Enterprise Meta service"
+  sudo dnf install -y "https://dl.influxdata.com/enterprise/releases/influxdb-meta-${version}_c${version}.x86_64.rpm"
+
+  log_info "Installing InfluxDB Enterprise Data service"
+  sudo dnf install -y "https://dl.influxdata.com/enterprise/releases/influxdb-data-${version}_c${version}.x86_64.rpm"
+}
+
 function install_influxdb_scripts {
   local -r dest_dir="$1"
 
@@ -134,8 +144,10 @@ function install_influxdb {
     install_influxdb_on_ubuntu "$version"
   elif os_is_amazon_linux "2"; then
     install_influxdb_on_amazon_linux "$version"
+  elif os_is_redhat "9"; then
+    install_influxdb_on_rhel9 "$version"
   else
-    log_error "This script only supports Ubuntu 18.04 and Amazon Linux 2."
+    log_error "This script only supports Ubuntu 18.04, Amazon Linux 2 or RHEL9."
     exit 1
   fi
 
