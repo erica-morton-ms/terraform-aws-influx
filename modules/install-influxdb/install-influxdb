@@ -130,15 +130,6 @@ function install_influxdb {
   assert_is_installed "sudo"
   assert_is_installed "wget"
 
-  if os_is_ubuntu "18.04"; then
-    install_influxdb_on_ubuntu "$version"
-  elif os_is_amazon_linux "2"; then
-    install_influxdb_on_amazon_linux "$version"
-  else
-    log_error "This script only supports Ubuntu 18.04 and Amazon Linux 2."
-    exit 1
-  fi
-
   sudo mv "$meta_config_file" "$DEFAULT_META_CONFIG_FILE_PATH"
   sudo mv "$data_config_file" "$DEFAULT_DATA_CONFIG_FILE_PATH"
 
