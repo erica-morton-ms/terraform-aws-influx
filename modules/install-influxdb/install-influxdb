@@ -144,13 +144,8 @@ function install_influxdb {
     install_influxdb_on_ubuntu "$version"
   elif os_is_amazon_linux "2"; then
     install_influxdb_on_amazon_linux "$version"
-  elif os_is_redhat; then
-    source /etc/os-release
-    if [[ $VERSION_ID == "9."* ]]; then
-      install_influxdb_on_rhel9 "$version"
-    else
-      :
-    fi
+  elif os_is_redhat_new; then
+    install_influxdb_on_rhel9 "$version"
   else
     log_error "This script only supports Ubuntu 18.04, Amazon Linux 2 or RHEL9."
     exit 1
